@@ -1114,36 +1114,50 @@ function animate() {
   renderer.render(scene, camera);
 }
 function createHintText() {
-  const canvasSize = 512;
+  const canvasSize = 1024; // 📍 TĂNG KÍCH THƯỚC: Từ 512 lên 1024
   const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = canvasSize;
+  canvas.width = canvasSize; 
+  canvas.height = canvasSize / 2; // 📍 CHIỀU CAO NỬA: Để text không bị méo
   const context = canvas.getContext('2d');
-  const fontSize = 50;
-  const text = 'Chạm Vào Tinh Cầu';
+  const fontSize = 40; // 📍 GIẢM FONT: Từ 50 xuống 40 để vừa khung
+  const text = 'Chạm Vào Tinh Cầu, zoom ra/vào để khám phá';
+  
   context.font = `bold ${fontSize}px Arial, sans-serif`;
   context.textAlign = 'center';
   context.textBaseline = 'middle';
+  
+  // Shadow và stroke effects
   context.shadowColor = '#ffb3de';
   context.shadowBlur = 5;
   context.lineWidth = 2;
   context.strokeStyle = 'rgba(255, 200, 220, 0.8)';
-  context.strokeText(text, canvasSize / 2, canvasSize / 2);
+  context.strokeText(text, canvasSize / 2, canvas.height / 2); // 📍 SỬA: canvas.height thay vì canvasSize
+  
   context.shadowColor = '#e0b3ff';
   context.shadowBlur = 5;
   context.lineWidth = 2;
   context.strokeStyle = 'rgba(220, 180, 255, 0.5)';
-  context.strokeText(text, canvasSize / 2, canvasSize / 2);
+  context.strokeText(text, canvasSize / 2, canvas.height / 2); // 📍 SỬA: canvas.height thay vì canvasSize
+  
   context.shadowColor = 'transparent';
   context.shadowBlur = 0;
   context.fillStyle = 'white';
-  context.fillText(text, canvasSize / 2, canvasSize / 2);
+  context.fillText(text, canvasSize / 2, canvas.height / 2); // 📍 SỬA: canvas.height thay vì canvasSize
+  
   const textTexture = new THREE.CanvasTexture(canvas);
   textTexture.needsUpdate = true;
+  
   const textMaterial = new THREE.MeshBasicMaterial({
     map: textTexture,
     transparent: true,
     side: THREE.DoubleSide
   });
+  
+  const planeGeometry = new THREE.PlaneGeometry(20, 10); // 📍 TĂNG KÍCH THƯỚC: Từ 16,8 lên 20,10
+  hintText = new THREE.Mesh(planeGeometry, textMaterial);
+  hintText.position.set(0, 15, 0);
+  scene.add(hintText);
+}
   const planeGeometry = new THREE.PlaneGeometry(16, 8);
   hintText = new THREE.Mesh(planeGeometry, textMaterial);
   hintText.position.set(0, 15, 0);
