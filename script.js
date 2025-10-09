@@ -615,6 +615,7 @@ const ringTexts = [
   " 💖 ",
   " 💝 ",
   " 💘 ",
+  " 🫶 ",
   " 👾 ",
   ...(window.dataCCD && window.dataCCD.data.ringTexts ? window.dataCCD.data.ringTexts : [])
 ];
